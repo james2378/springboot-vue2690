@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.CaigoutuihuoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.entity.CaigoutuihuoEntity" id="caigoutuihuoMap">
+        <result property="tuihuodanhao" column="tuihuodanhao"/>
+        <result property="jiajumingcheng" column="jiajumingcheng"/>
+        <result property="jiajufenlei" column="jiajufenlei"/>
+        <result property="jiajufengge" column="jiajufengge"/>
+        <result property="jiajutupian" column="jiajutupian"/>
+        <result property="gongyingshangmingcheng" column="gongyingshangmingcheng"/>
+        <result property="lianxiren" column="lianxiren"/>
+        <result property="lianxidianhua" column="lianxidianhua"/>
+        <result property="caigoujiage" column="caigoujiage"/>
+        <result property="jiajushuliang" column="jiajushuliang"/>
+        <result property="tuihuojine" column="tuihuojine"/>
+        <result property="tuihuoriqi" column="tuihuoriqi"/>
+        <result property="tuihuobeizhu" column="tuihuobeizhu"/>
+        <result property="clicktime" column="clicktime"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.entity.vo.CaigoutuihuoVO" >
+		SELECT * FROM caigoutuihuo  caigoutuihuo         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.entity.vo.CaigoutuihuoVO" >
+		SELECT  caigoutuihuo.* FROM caigoutuihuo  caigoutuihuo 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.entity.view.CaigoutuihuoView" >
+
+		SELECT  caigoutuihuo.* FROM caigoutuihuo  caigoutuihuo 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.entity.view.CaigoutuihuoView" >
+		SELECT * FROM caigoutuihuo  caigoutuihuo <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+
+    <select id="selectValue" resultType="map" >
+        SELECT ${params.xColumn}, sum(${params.yColumn}) total FROM caigoutuihuo
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.xColumn}
+    </select>
+
+    <select id="selectTimeStatValue" resultType="map" >
+        <if test = 'params.timeStatType == "日"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m-%d') ${params.xColumn}, sum(${params.yColumn}) total FROM caigoutuihuo
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m-%d')
+        </if>
+        <if test = 'params.timeStatType == "月"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m') ${params.xColumn}, sum(${params.yColumn}) total FROM caigoutuihuo
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m')
+        </if>
+        <if test = 'params.timeStatType == "年"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y') ${params.xColumn}, sum(${params.yColumn}) total FROM caigoutuihuo
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y')
+        </if>
+    </select>
+    
+    <select id="selectGroup" resultType="map" >
+        SELECT ${params.column} , count(1) total FROM caigoutuihuo
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.column}
+    </select>
+</mapper>
